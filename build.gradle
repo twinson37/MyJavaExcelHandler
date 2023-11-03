@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'edu.sc.seis.launch4j' version '3.0.5'
+
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    // xls 엑셀 파일 읽기 쓰기
+    implementation 'org.apache.poi:poi:4.1.2'
+    // xlsx 엑셀 파일 읽기 쓰기
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+    implementation 'sax:sax:2.0.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "MakeFileList"
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
